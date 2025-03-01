@@ -41,7 +41,17 @@ class SimpleBankAccountTest {
     void testWithdraw() {
         bankAccount.deposit(accountHolder.getId(), 100);
         bankAccount.withdraw(accountHolder.getId(), 70);
-        assertEquals(30, bankAccount.getBalance());
+        assertEquals(29, bankAccount.getBalance());
+    }
+
+    @Test
+    void testWithdrawCreditNoEnoughBalance() {
+        bankAccount.deposit(accountHolder.getId(), 100);
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            bankAccount.withdraw(accountHolder.getId(), 100);
+        });
+        assertEquals("Insufficient balance for withdrawal with fee.", exception.getMessage());
+        assertEquals(100, bankAccount.getBalance());
     }
 
     @Test

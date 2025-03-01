@@ -7,6 +7,7 @@ package example.model;
  */
 public class SimpleBankAccount implements BankAccount {
 
+    private static final double FEE = 1;
     private double balance;
     private final AccountHolder holder;
 
@@ -34,12 +35,14 @@ public class SimpleBankAccount implements BankAccount {
     @Override
     public void withdraw(final int userID, final double amount) {
         if (checkUser(userID) && isWithdrawAllowed(amount)) {
-            this.balance -= amount;
+            this.balance -= amount + FEE;
+        } else if (checkUser(userID) && !isWithdrawAllowed(amount)){
+            throw new IllegalArgumentException("Insufficient balance for withdrawal with fee.");
         }
     }
 
     private boolean isWithdrawAllowed(final double amount){
-        return this.balance >= amount;
+        return this.balance >= amount + FEE;
     }
 
     private boolean checkUser(final int id) {
