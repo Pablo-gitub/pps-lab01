@@ -13,4 +13,19 @@ package tdd;
  *   - Introduce methods in the interface in order to make the tests pass.
  *   - Refactor
  */
-public interface CircularQueue { }
+public interface CircularQueue {
+    /**
+     * insert a value to the circular queue
+     * if the length of the queue is higher than the fixed capacity
+     * overwrite the oldest element
+     * @param value new element fo the queue
+     */
+    void push(int value);
+
+    /**
+     * return and delete the oldest element in the queue
+     * @return the oldest element
+     */
+    int pop();
+
+}
