@@ -1,11 +1,12 @@
 package tdd;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MinMaxStackSimple implements MinMaxStack {
 
-    private List<Integer> stack = new ArrayList<>();
+    private final LinkedList<Integer> stack = new LinkedList<>();
 
     @Override
     public void push(int value) {
@@ -14,7 +15,9 @@ public class MinMaxStackSimple implements MinMaxStack {
 
     @Override
     public int pop() {
-        return 0;
+        int out = this.stack.getLast();
+        this.stack.removeLast();
+        return out;
     }
 
     @Override
