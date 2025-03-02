@@ -22,22 +22,34 @@ public class MinMaxStackSimple implements MinMaxStack {
 
     @Override
     public int peek() {
-        return 0;
+        if (this.stack.isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        } else {
+            return this.stack.getLast();
+        }
     }
 
     @Override
     public int getMin() {
-        return 0;
+        if (this.stack.isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        } else {
+            return this.stack.stream().min(Integer::compare).get();
+        }
     }
 
     @Override
     public int getMax() {
-        return 0;
+        if (this.stack.isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        } else {
+            return this.stack.stream().max(Integer::compare).get();
+        }
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return this.stack.isEmpty();
     }
 
     @Override
