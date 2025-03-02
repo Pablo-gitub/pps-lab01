@@ -70,4 +70,14 @@ class MinMaxStackImplTest {
         exception = assertThrows( IllegalStateException.class, () -> stack.getMin());
         assertEquals("Stack is empty", exception.getMessage());
     }
+
+    @Test
+    void unorderedStackTest() {
+        stack.push(2);
+        stack.push(3);
+        stack.push(1);
+        stack.push(2);
+        assertEquals(3, stack.getMax());
+        assertEquals(1, stack.getMin());
+    }
 }
