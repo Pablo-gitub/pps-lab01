@@ -1,8 +1,6 @@
 package tdd;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 public class MinMaxStackSimple implements MinMaxStack {
 
