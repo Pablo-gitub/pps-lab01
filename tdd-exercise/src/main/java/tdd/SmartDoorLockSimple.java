@@ -2,17 +2,15 @@ package tdd;
 
 public class SmartDoorLockSimple implements SmartDoorLock {
 
-    private final static String LOCKED = "Locked";
-    private final static String UNLOCKED = "Unlocked";
-    private final static String BLOCKED = "Blocked";
+    private enum LockState { UNLOCKED, LOCKED, BLOCKED }
     private final int MAXATTEMPTS = 3;
-    private String lockState;
+    private LockState lockState;
     private int pin;
     private final static int PIN_LENGTH = 4;
     private int attempts = 0;
 
     SmartDoorLockSimple() {
-        lockState = UNLOCKED;
+        lockState = LockState.UNLOCKED;
         attempts = 0;
         pin = 0;
     }
@@ -23,9 +21,9 @@ public class SmartDoorLockSimple implements SmartDoorLock {
 
     @Override
     public void setPin(int pin) {
-        if(lockState.equals(UNLOCKED) && lengthInt(pin) == PIN_LENGTH){
+        if(lockState == LockState.UNLOCKED && lengthInt(pin) == PIN_LENGTH){
             this.pin = pin;
-        } else if(!lockState.equals(UNLOCKED)){
+        } else if(!(lockState == LockState.UNLOCKED)){
             throw new IllegalArgumentException("Error Door State");
         } else {
             throw new IllegalArgumentException("Error Pin Length");
@@ -36,12 +34,12 @@ public class SmartDoorLockSimple implements SmartDoorLock {
     public void unlock(int pin) {
         if(isLocked()){
             if(pin == this.pin){
-                lockState = UNLOCKED;
+                lockState = LockState.UNLOCKED;
                 attempts = 0;
             } else {
                 attempts++;
                 if(attempts >= MAXATTEMPTS){
-                    this.lockState = BLOCKED;
+                    this.lockState = LockState.BLOCKED;
                 }
             }
         }
@@ -50,7 +48,7 @@ public class SmartDoorLockSimple implements SmartDoorLock {
     @Override
     public void lock() {
         if(pin != 0){
-            lockState = LOCKED;
+            lockState = LockState.LOCKED;
         } else {
             throw new IllegalStateException("pin is not set");
         }
@@ -58,12 +56,12 @@ public class SmartDoorLockSimple implements SmartDoorLock {
 
     @Override
     public boolean isLocked() {
-        return lockState.equals(LOCKED);
+        return lockState == LockState.LOCKED;
     }
 
     @Override
     public boolean isBlocked() {
-        return lockState.equals(BLOCKED);
+        return lockState == LockState.BLOCKED;
     }
 
     @Override
@@ -78,7 +76,7 @@ public class SmartDoorLockSimple implements SmartDoorLock {
 
     @Override
     public void reset() {
-        this.lockState = UNLOCKED;
+        this.lockState = LockState.UNLOCKED;
         this.attempts = 0;
         this.pin = 0;
     }

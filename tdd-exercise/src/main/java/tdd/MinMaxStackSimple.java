@@ -1,69 +1,70 @@
 package tdd;
 
-import java.util.Collections;
 import java.util.LinkedList;
-import java.util.TreeMap;
 
 public class MinMaxStackSimple implements MinMaxStack {
 
     private final LinkedList<Integer> stack = new LinkedList<>();
-    private final TreeMap<Integer, Integer> orderedMap = new TreeMap<>();
+    private final LinkedList<Integer> minStack = new LinkedList<>();
+    private final LinkedList<Integer> maxStack = new LinkedList<>();
 
     @Override
     public void push(int value) {
         stack.add(value);
-        orderedMap.put(value, orderedMap.getOrDefault(value, 0) + 1);
+        if (minStack.isEmpty() || value <= minStack.getLast()) {
+            minStack.add(value);
+        } else {
+            minStack.add(minStack.getLast());
+        }
+
+        if (maxStack.isEmpty() || value >= maxStack.getLast()) {
+            maxStack.add(value);
+        } else {
+            maxStack.add(maxStack.getLast());
+        }
     }
 
     @Override
     public int pop() {
-        if (this.stack.isEmpty()) {
+        if (stack.isEmpty()) {
             throw new IllegalStateException("Stack is empty");
-        } else {
-            int out = this.stack.removeLast();
-            if (orderedMap.get(out) == 1) {
-                orderedMap.remove(out);
-            } else {
-                orderedMap.put(out, orderedMap.get(out) - 1);
-            }
-            return out;
         }
+        minStack.removeLast();
+        maxStack.removeLast();
+        return stack.removeLast();
     }
 
     @Override
     public int peek() {
-        if (this.stack.isEmpty()) {
+        if (stack.isEmpty()) {
             throw new IllegalStateException("Stack is empty");
-        } else {
-            return this.stack.getLast();
         }
+        return stack.getLast();
     }
 
     @Override
     public int getMin() {
-        if (this.stack.isEmpty()) {
+        if (stack.isEmpty()) {
             throw new IllegalStateException("Stack is empty");
-        } else {
-            return orderedMap.firstKey();
         }
+        return minStack.getLast();
     }
 
     @Override
     public int getMax() {
-        if (this.stack.isEmpty()) {
+        if (stack.isEmpty()) {
             throw new IllegalStateException("Stack is empty");
-        } else {
-            return orderedMap.lastKey();
         }
+        return maxStack.getLast();
     }
 
     @Override
     public boolean isEmpty() {
-        return this.stack.isEmpty();
+        return stack.isEmpty();
     }
 
     @Override
     public int size() {
-        return this.stack.size();
+        return stack.size();
     }
 }

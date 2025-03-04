@@ -80,4 +80,19 @@ class MinMaxStackImplTest {
         assertEquals(3, stack.getMax());
         assertEquals(1, stack.getMin());
     }
+
+    @Test
+    void unorderedStackTest2() {
+        stack.push(7);
+        stack.push(5);
+        stack.push(6);
+        stack.push(10);
+        stack.push(8);
+        assertEquals(10, stack.getMax());
+        assertEquals(5, stack.getMin());
+        stack.pop();
+        stack.pop();
+        assertEquals(7, stack.getMax());
+        assertEquals(5, stack.getMin());
+    }
 }
